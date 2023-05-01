@@ -10,17 +10,23 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         // MARK: TabView With Recent Post's And Profile Tabs
-        TabView{
+        TabView {
             ContactsView()
                 .tabItem {
-                    Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
-                    Text("Post's")
+                    Image(systemName: "person.3.fill")
+                    Text("Contacts")
+                }
+            
+            RequestsView()
+                .tabItem {
+                    Image(systemName: "person.badge.plus.fill")
+                    Text("Requests")
                 }
             
             ProfileView()
                 .tabItem {
-                    Image(systemName: "gear")
-                    Text("Profile")
+                    Image(systemName: "person.crop.circle.fill")
+                    Text("Me")
                 }
         }
         // Changing Tab Lable Tint to Black
