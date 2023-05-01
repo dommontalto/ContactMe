@@ -16,17 +16,6 @@ struct ContactsView: View {
                 Text(contact)
                     .font(.headline)
             }
-            .toolbar(content: {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                         SearchUserView()
-                    } label: {
-                        Image(systemName: "magnifyingglass")
-                            .tint(.black)
-                            .scaleEffect(0.9)
-                    }
-                }
-            })
             .navigationTitle("Contacts")
         }
     }

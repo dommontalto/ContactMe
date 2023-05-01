@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
     var user: User
-    @State private var fetchedPosts: [Post] = []
+   
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack{
