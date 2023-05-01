@@ -23,40 +23,53 @@ struct RequestsView: View {
     @State private var showSearchUserView = false
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(friendRequests) { request in
-                    if let sender = users[request.senderUID] {
-                        HStack {
-                            Text("Request from \(sender.username)")
+            NavigationView {
+                Group {
+                    if friendRequests.isEmpty {
+                        VStack {
                             Spacer()
-                            Button(action: {
-                                Task { await acceptFriendRequest(request) }
-                            }) {
-                                Text("Accept")
+                            Text("No Requests")
+                                .font(.largeTitle)
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
+                    } else {
+                        List {
+                            ForEach(friendRequests) { request in
+                                if let sender = users[request.senderUID] {
+                                    HStack {
+                                        Text("Request from \(sender.username)")
+                                        Spacer()
+                                        Button(action: {
+                                            Task { await acceptFriendRequest(request) }
+                                        }) {
+                                            Text("Accept")
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
-            .navigationBarTitle("Requests", displayMode: .inline)
-            .background(
-                NavigationLink(destination: SearchUserView(), isActive: $showSearchUserView) {
-                    EmptyView()
+                .navigationTitle("Requests")
+                .background(
+                    NavigationLink(destination: SearchUserView(), isActive: $showSearchUserView) {
+                        EmptyView()
+                    }
+                )
+                .navigationBarItems(trailing:
+                    Button(action: {
+                        showSearchUserView = true
+                    }) {
+                        Image(systemName: "magnifyingglass")
+                    }
+                )
+                .onAppear {
+                    Task { await fetchFriendRequests() }
                 }
-            )
-            .navigationBarItems(trailing:
-                Button(action: {
-                    showSearchUserView = true
-                }) {
-                    Image(systemName: "magnifyingglass")
-                }
-            )
-            .onAppear {
-                Task { await fetchFriendRequests() }
             }
         }
-    }
+
 
     
     func fetchFriendRequests() async {

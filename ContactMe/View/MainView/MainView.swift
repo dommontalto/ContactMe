@@ -26,7 +26,7 @@ struct MainView: View {
             ProfileView()
                 .tabItem {
                     Image(systemName: "person.crop.circle.fill")
-                    Text("Me")
+                    Text("Profile")
                 }
         }
         // Changing Tab Lable Tint to Black

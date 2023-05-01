@@ -36,7 +36,7 @@ struct ProfileView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle("My Profile")
+            .navigationTitle("Profile")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {

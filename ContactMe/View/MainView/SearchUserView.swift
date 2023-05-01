@@ -9,29 +9,37 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct SearchUserView: View {
-    /// - View Properties
     @State private var fetchedUsers: [User] = []
     @State private var searchText: String = ""
     @Environment(\.dismiss) private var dismiss
+    @State private var friendRequests: [String: String] = [:]
 
     var body: some View {
         List {
             ForEach(fetchedUsers) { user in
                 HStack {
-                    NavigationLink {
-                        ReusableProfileContent(user: user)
-                    } label: {
-                        Text(user.username)
-                            .font(.callout)
-                            .hAlign(.leading)
-                    }
+                    Text(user.username)
+                        .font(.callout)
+                        .hAlign(.leading)
+                    
                     Spacer()
-                    Button(action: {
-                        Task { await sendFriendRequest(to: user) }
-                    }) {
-                        Text("Send Request")
+                    
+                    switch friendRequests[user.userUID] {
+                    case "pending":
+                        Text("Requested")
+                            .foregroundColor(.gray)
+                    case "accepted":
+                        Text("Accepted")
+                            .foregroundColor(.gray)
+                    default:
+                        Button(action: {
+                            Task { await sendFriendRequest(to: user) }
+                        }) {
+                            Text("Send Request")
+                        }
                     }
                 }
+                .disabled(friendRequests[user.userUID] != nil)
             }
         }
         .listStyle(.plain)
@@ -39,7 +47,6 @@ struct SearchUserView: View {
         .navigationTitle("Search User")
         .searchable(text: $searchText)
         .onSubmit(of: .search, {
-            /// - Fetch User From Firebase
             Task { await searchUsers() }
         })
         .onChange(of: searchText, perform: { newValue in
@@ -47,9 +54,15 @@ struct SearchUserView: View {
                 fetchedUsers = []
             }
         })
+        .onAppear {
+            Task { await fetchFriendRequests() }
+        }
     }
 
+
     func searchUsers() async {
+        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
+
         do {
             let documents = try await Firestore.firestore().collection("Users")
                 .whereField("username", isGreaterThanOrEqualTo: searchText)
@@ -58,7 +71,8 @@ struct SearchUserView: View {
                 .getDocuments()
 
             let users = try documents.documents.compactMap { doc -> User? in
-                try doc.data(as: User.self)
+                let user = try doc.data(as: User.self)
+                return user.userUID != currentUserUID ? user : nil
             }
 
             await MainActor.run(body: {
@@ -68,6 +82,7 @@ struct SearchUserView: View {
             print(error.localizedDescription)
         }
     }
+
 
     func sendFriendRequest(to user: User) async {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
@@ -79,6 +94,43 @@ struct SearchUserView: View {
             print("Error sending friend request: \(error)")
         }
     }
+    
+    func fetchFriendRequests() async {
+        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
+
+        do {
+            let sentDocuments = try await Firestore.firestore().collection("FriendRequests")
+                .whereField("senderUID", isEqualTo: currentUserUID)
+                .getDocuments()
+
+            let receivedDocuments = try await Firestore.firestore().collection("FriendRequests")
+                .whereField("receiverUID", isEqualTo: currentUserUID)
+                .getDocuments()
+
+            let sentRequests = try sentDocuments.documents.compactMap { doc -> Request? in
+                try doc.data(as: Request.self)
+            }
+            
+            let receivedRequests = try receivedDocuments.documents.compactMap { doc -> Request? in
+                try doc.data(as: Request.self)
+            }
+
+            let allRequests = sentRequests + receivedRequests
+
+            await MainActor.run {
+                for request in allRequests {
+                    if request.senderUID == currentUserUID {
+                        friendRequests[request.receiverUID] = request.status
+                    } else {
+                        friendRequests[request.senderUID] = request.status
+                    }
+                }
+            }
+        } catch {
+            print("Error fetching friend requests: \(error)")
+        }
+    }
+
 }
 
 struct SearchUserView_Previews: PreviewProvider {
