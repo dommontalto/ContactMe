@@ -45,15 +45,7 @@ struct ReusableProfileContent: View {
                     }
                     .hAlign(.leading)
                 }
-                
-                Text("Post's")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                    .hAlign(.leading)
-                    .padding(.vertical,15)
-                
-                ReusablePostsView(basedOnUID: true, uid: user.userUID, posts: $fetchedPosts)
+            
             }
             .padding(15)
         }
