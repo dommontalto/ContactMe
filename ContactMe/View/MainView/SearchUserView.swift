@@ -18,7 +18,7 @@ struct SearchUserView: View {
         List {
             ForEach(fetchedUsers) { user in
                 HStack {
-                    Text(user.username)
+                    Text(user.userPIN)
                         .font(.callout)
                         .hAlign(.leading)
                     

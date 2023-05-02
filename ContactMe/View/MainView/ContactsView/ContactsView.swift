@@ -17,7 +17,7 @@ struct ContactsView: View {
         NavigationView {
             List(friends) { friend in
                 NavigationLink(destination: ReusableProfileContent(user: friend)) {
-                    Text(friend.username)
+                    Text(friend.userPIN)
                         .font(.headline)
                 }
             }

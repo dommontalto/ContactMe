@@ -21,7 +21,7 @@ struct LoginView: View {
     @State var isLoading: Bool = false
     // MARK: User Defaults
     @AppStorage("user_profile_url") var profileURL: URL?
-    @AppStorage("user_name") var userNameStored: String = ""
+    @AppStorage("full_name") var fullNameStored: String = ""
     @AppStorage("user_UID") var userUID: String = ""
     @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
@@ -110,7 +110,7 @@ struct LoginView: View {
         await MainActor.run(body: {
             // Setting UserDefaults data and Changing App's Auth Status
             userUID = userID
-            userNameStored = user.username
+            fullNameStored = user.fullName
             profileURL = user.userProfileURL
             logStatus = true
         })

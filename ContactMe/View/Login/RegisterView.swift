@@ -15,10 +15,10 @@ import PhotosUI
 struct RegisterView: View{
     // MARK: User Details
     @State var emailID: String = ""
+    @State var fullName: String = ""
     @State var password: String = ""
-    @State var userName: String = ""
+    @State var userPIN: String = ""
     @State var location: String = ""
-    @State var userBioLink: String = ""
     @State var userProfilePicData: Data?
     // MARK: View Properties
     @Environment(\.dismiss) var dismiss
@@ -30,8 +30,13 @@ struct RegisterView: View{
     // MARK: UserDefaults
     @AppStorage("log_status") var logStatus: Bool = false
     @AppStorage("user_profile_url") var profileURL: URL?
-    @AppStorage("user_name") var userNameStored: String = ""
+    @AppStorage("full_name") var fullNameStored: String = ""
     @AppStorage("user_UID") var userUID: String = ""
+    
+    init() {
+        generateRandomPin()
+    }
+    
     var body: some View{
         VStack(spacing: 10){
             Text("Lets Register\nAccount")
@@ -112,7 +117,7 @@ struct RegisterView: View{
             }
             .padding(.top,25)
             
-            TextField("Username", text: $userName)
+            TextField("Full Name", text: $fullName)
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
             
@@ -128,9 +133,7 @@ struct RegisterView: View{
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
             
-            TextField("Bio Link (Optional)", text: $userBioLink)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.5))
+            PINCodeView(pin: $userPIN, onRefresh: generateRandomPin)
             
             Button(action: registerUser){
                 // MARK: Login Button
@@ -139,7 +142,7 @@ struct RegisterView: View{
                     .hAlign(.center)
                     .fillView(.black)
             }
-            .disableWithOpacity(userName == "" || location == "" || emailID == "" || password == "" || userProfilePicData == nil)
+            .disableWithOpacity(fullName == "" || location == "" || emailID == "" || password == "" || userProfilePicData == nil)
             .padding(.top,10)
         }
     }
@@ -159,13 +162,13 @@ struct RegisterView: View{
                 // Step 3: Downloading Photo URL
                 let downloadURL = try await storageRef.downloadURL()
                 // Step 4: Creating a User Firestore Object
-                let user = User(username: userName, location: location, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
+                let user = User(fullName: fullName, userPIN: userPIN, location: location, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
                 // Step 5: Saving User Doc into Firestore Database
                 let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: { error in
                     if error == nil{
                         // MARK: Print Saved Successfully
                         print("Saved Successfully")
-                        userNameStored = userName
+                        fullNameStored = fullName
                         self.userUID = userUID
                         profileURL = downloadURL
                         logStatus = true
@@ -188,10 +191,38 @@ struct RegisterView: View{
             isLoading = false
         })
     }
+    
+    func generateRandomPin() {
+        let characters = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+        userPIN = String((0..<8).map { _ in characters.randomElement()! })
+    }
 }
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct PINCodeView: View {
+    @Binding var pin: String
+    var onRefresh: () -> Void
+
+    var body: some View {
+        HStack {
+            Text(pin)
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
+
+            Button(action: {
+                onRefresh()
+            }) {
+                Image(systemName: "arrow.clockwise")
+                    .font(.system(size: 14, weight: .bold))
+            }
+            .padding(.trailing)
+        }
+        .border(1, .gray.opacity(0.5))
     }
 }

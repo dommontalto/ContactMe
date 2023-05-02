@@ -26,7 +26,7 @@ struct ProfileView: View {
     // Add @State to manage popover presentation
     @State private var showEditPopover: Bool = false
     // Add @State to manage the edited user
-    @State private var editedUser: User = User(id: nil, username: "", location: "", userBioLink: "", userUID: "", userEmail: "", userProfileURL: URL(string: "https://example.com")!)
+    @State private var editedUser: User = User(id: nil, fullName: "", userPIN: "", location: "", userUID: "", userEmail: "", userProfileURL: URL(string: "https://example.com")!)
     
     var body: some View {
         NavigationStack {
@@ -50,7 +50,7 @@ struct ProfileView: View {
                     })
                     .popover(isPresented: $showEditPopover) {
                         VStack {
-                            TextField("Username", text: $editedUser.username)
+                            TextField("Full Name", text: $editedUser.fullName)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                             TextField("Location", text: $editedUser.location)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())

@@ -26,26 +26,19 @@ struct ReusableProfileContent: View {
                     .clipShape(Circle())
                     
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(user.username)
+                        Text(user.fullName)
                             .font(.title3)
                             .fontWeight(.semibold)
                         
-                        Text(user.location)
+                        Text(user.userPIN)
                             .font(.caption)
                             .foregroundColor(.gray)
                             .lineLimit(3)
                         
-                        // MARK: Displaying Bio Link, If Given While Signing Up Profile Page
-                        if let bioLink = URL(string: user.userBioLink){
-                            Link(user.userBioLink, destination: bioLink)
-                                .font(.callout)
-                                .tint(.blue)
-                                .lineLimit(1)
-                        }
                     }
                     .hAlign(.leading)
                 }
-            
+                
             }
             .padding(15)
         }
