@@ -17,7 +17,7 @@ struct RegisterView: View{
     @State var emailID: String = ""
     @State var password: String = ""
     @State var userName: String = ""
-    @State var userBio: String = ""
+    @State var location: String = ""
     @State var userBioLink: String = ""
     @State var userProfilePicData: Data?
     // MARK: View Properties
@@ -124,8 +124,7 @@ struct RegisterView: View{
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
             
-            TextField("About You", text: $userBio,axis: .vertical)
-                .frame(minHeight: 100,alignment: .top)
+            TextField("Location", text: $location)
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
             
@@ -140,7 +139,7 @@ struct RegisterView: View{
                     .hAlign(.center)
                     .fillView(.black)
             }
-            .disableWithOpacity(userName == "" || userBio == "" || emailID == "" || password == "" || userProfilePicData == nil)
+            .disableWithOpacity(userName == "" || location == "" || emailID == "" || password == "" || userProfilePicData == nil)
             .padding(.top,10)
         }
     }
@@ -160,7 +159,7 @@ struct RegisterView: View{
                 // Step 3: Downloading Photo URL
                 let downloadURL = try await storageRef.downloadURL()
                 // Step 4: Creating a User Firestore Object
-                let user = User(username: userName, userBio: userBio, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
+                let user = User(username: userName, location: location, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
                 // Step 5: Saving User Doc into Firestore Database
                 let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: { error in
                     if error == nil{

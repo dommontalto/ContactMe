@@ -30,7 +30,7 @@ struct ReusableProfileContent: View {
                             .font(.title3)
                             .fontWeight(.semibold)
                         
-                        Text(user.userBio)
+                        Text(user.location)
                             .font(.caption)
                             .foregroundColor(.gray)
                             .lineLimit(3)

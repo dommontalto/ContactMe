@@ -1,4 +1,4 @@
-//
+////
 //  ProfileView.swift
 //  SocialMedia
 //
@@ -14,7 +14,7 @@ struct ProfileView: View {
     // MARK: My Profile Data
     @State private var myProfile: User?
     // MARK: User Defaults Data
-    @AppStorage("user_profile_url") var profileURL: URL?
+    @AppStorage("user_profile_url") var userProfileURL: URL?
     @AppStorage("user_name") var userName: String = ""
     @AppStorage("user_UID") var userUID: String = ""
     @AppStorage("log_status") var logStatus: Bool = false
@@ -26,7 +26,7 @@ struct ProfileView: View {
     // Add @State to manage popover presentation
     @State private var showEditPopover: Bool = false
     // Add @State to manage the edited user
-    @State private var editedUser: User?
+    @State private var editedUser: User = User(id: nil, username: "", location: "", userBioLink: "", userUID: "", userEmail: "", userProfileURL: URL(string: "https://example.com")!)
     
     var body: some View {
         NavigationStack {
@@ -46,18 +46,13 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Edit", action: {
-                        editedUser = myProfile
                         showEditPopover.toggle()
                     })
                     .popover(isPresented: $showEditPopover) {
                         VStack {
-                            TextField("Username", text: Binding(get: { editedUser?.username ?? "" }, set: { editedUser?.username = $0 }))
+                            TextField("Username", text: $editedUser.username)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                            TextField("User Bio", text: Binding(get: { editedUser?.userBio ?? "" }, set: { editedUser?.userBio = $0 }))
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            TextField("User Bio Link", text: Binding(get: { editedUser?.userBioLink ?? "" }, set: { editedUser?.userBioLink = $0 }))
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            TextField("User Email", text: Binding(get: { editedUser?.userEmail ?? "" }, set: { editedUser?.userEmail = $0 }))
+                            TextField("Location", text: $editedUser.location)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                             Button("Confirm", action: {
                                 saveChanges()
@@ -66,6 +61,10 @@ struct ProfileView: View {
                             .padding(.top)
                         }
                         .padding()
+                        .onAppear {
+                            guard let myProfile else { return }
+                            editedUser = myProfile
+                        }
                     }
                 }
             }
@@ -76,7 +75,7 @@ struct ProfileView: View {
         .alert(errorMessage, isPresented: $showError) {
         }
         .task {
-            // This Modifer is like onAppear
+            // This Modifier is like onAppear
             // So Fetching for the First Time Only
             if myProfile != nil { return }
             // MARK: Initial Fetch
@@ -98,10 +97,9 @@ struct ProfileView: View {
         try? Auth.auth().signOut()
         userUID = ""
         userName = ""
-        profileURL = nil
+        userProfileURL = nil
         logStatus = false
     }
-    
     // MARK: Deleting User Entire Account
     func deleteAccount() {
         isLoading = true
@@ -133,11 +131,11 @@ struct ProfileView: View {
     }
     
     func saveChanges() {
-        guard let updatedUser = editedUser else { return }
-        let userRef = Firestore.firestore().collection("Users").document(updatedUser.userUID)
+        guard let myProfile = myProfile else { return }
+        let userRef = Firestore.firestore().collection("Users").document(myProfile.userUID)
         do {
-            try userRef.setData(from: updatedUser)
-            myProfile = updatedUser
+            try userRef.setData(from: editedUser)
+            self.myProfile = editedUser
         } catch {
             // await setError(error)
         }
