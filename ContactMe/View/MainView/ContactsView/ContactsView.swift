@@ -34,29 +34,41 @@ struct ContactsView: View {
     }
     func fetchFriends() async {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-        
+
         // Clear the friends array
         await MainActor.run {
             friends.removeAll()
         }
-        
+
         do {
-            let documents = try await Firestore.firestore().collection("FriendRequests")
+            let senderDocuments = try await Firestore.firestore().collection("FriendRequests")
                 .whereField("receiverUID", isEqualTo: currentUserUID)
                 .whereField("status", isEqualTo: "accepted")
                 .getDocuments()
-            
-            let senderUIDs = documents.documents.compactMap { doc -> String? in
+
+            let receiverDocuments = try await Firestore.firestore().collection("FriendRequests")
+                .whereField("senderUID", isEqualTo: currentUserUID)
+                .whereField("status", isEqualTo: "accepted")
+                .getDocuments()
+
+            let senderUIDs = senderDocuments.documents.compactMap { doc -> String? in
                 doc.get("senderUID") as? String
             }
-            
-            for uid in senderUIDs {
+
+            let receiverUIDs = receiverDocuments.documents.compactMap { doc -> String? in
+                doc.get("receiverUID") as? String
+            }
+
+            let allUIDs = Array(Set(senderUIDs + receiverUIDs))
+
+            for uid in allUIDs {
                 Task { await fetchFriendDetails(uid) }
             }
         } catch {
             print("Error fetching friends: \(error)")
         }
     }
+
 
 
     func fetchFriendDetails(_ uid: String) async {

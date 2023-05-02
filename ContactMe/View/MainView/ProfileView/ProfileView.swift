@@ -22,35 +22,50 @@ struct ProfileView: View {
     @State var errorMessage: String = ""
     @State var showError: Bool = false
     @State var isLoading: Bool = false
+    
+    // Add @State to manage popover presentation
+    @State private var showEditPopover: Bool = false
+    // Add @State to manage the edited user
+    @State private var editedUser: User?
+    
     var body: some View {
-        NavigationStack{
-            VStack{
-                if let myProfile{
+        NavigationStack {
+            VStack {
+                if let myProfile {
                     ReusableProfileContent(user: myProfile)
                         .refreshable {
                             // MARK: Refresh User Data
                             self.myProfile = nil
                             await fetchUserData()
                         }
-                }else{
+                } else {
                     ProgressView()
                 }
             }
             .navigationTitle("Profile")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        // MARK: Two Action's
-                        // 1. Logout
-                        // 2. Delete Account
-                        Button("Logout",action: logOutUser)
-                        
-                        Button("Delete Account",role: .destructive,action: deleteAccount)
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .rotationEffect(.init(degrees: 90))
-                            .tint(.black)
-                            .scaleEffect(0.8)
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Edit", action: {
+                        editedUser = myProfile
+                        showEditPopover.toggle()
+                    })
+                    .popover(isPresented: $showEditPopover) {
+                        VStack {
+                            TextField("Username", text: Binding(get: { editedUser?.username ?? "" }, set: { editedUser?.username = $0 }))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            TextField("User Bio", text: Binding(get: { editedUser?.userBio ?? "" }, set: { editedUser?.userBio = $0 }))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            TextField("User Bio Link", text: Binding(get: { editedUser?.userBioLink ?? "" }, set: { editedUser?.userBioLink = $0 }))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            TextField("User Email", text: Binding(get: { editedUser?.userEmail ?? "" }, set: { editedUser?.userEmail = $0 }))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            Button("Confirm", action: {
+                                saveChanges()
+                                showEditPopover.toggle()
+                            })
+                            .padding(.top)
+                        }
+                        .padding()
                     }
                 }
             }
@@ -63,23 +78,23 @@ struct ProfileView: View {
         .task {
             // This Modifer is like onAppear
             // So Fetching for the First Time Only
-            if myProfile != nil{return}
+            if myProfile != nil { return }
             // MARK: Initial Fetch
             await fetchUserData()
         }
     }
     
     // MARK: Fetching User Data
-    func fetchUserData()async{
-        guard let userUID = Auth.auth().currentUser?.uid else{return}
-        guard let user = try? await Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else{return}
+    func fetchUserData() async {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        guard let user = try? await Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else { return }
         await MainActor.run(body: {
             myProfile = user
         })
     }
     
     // MARK: Logging User Out
-    func logOutUser(){
+    func logOutUser() {
         try? Auth.auth().signOut()
         userUID = ""
         userName = ""
@@ -88,11 +103,11 @@ struct ProfileView: View {
     }
     
     // MARK: Deleting User Entire Account
-    func deleteAccount(){
+    func deleteAccount() {
         isLoading = true
-        Task{
-            do{
-                guard let userUID = Auth.auth().currentUser?.uid else{return}
+        Task {
+            do {
+                guard let userUID = Auth.auth().currentUser?.uid else { return }
                 // Step 1: First Deleting Profile Image From Storage
                 let reference = Storage.storage().reference().child("Profile_Images").child(userUID)
                 try await reference.delete()
@@ -101,14 +116,14 @@ struct ProfileView: View {
                 // Final Step: Deleting Auth Account and Setting Log Status to False
                 try await Auth.auth().currentUser?.delete()
                 logStatus = false
-            }catch{
+            } catch {
                 await setError(error)
             }
         }
     }
     
     // MARK: Setting Error
-    func setError(_ error: Error)async{
+    func setError(_ error: Error) async {
         // MARK: UI Must be run on Main Thread
         await MainActor.run(body: {
             isLoading = false
@@ -116,10 +131,21 @@ struct ProfileView: View {
             showError.toggle()
         })
     }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    func saveChanges() {
+        guard let updatedUser = editedUser else { return }
+        let userRef = Firestore.firestore().collection("Users").document(updatedUser.userUID)
+        do {
+            try userRef.setData(from: updatedUser)
+            myProfile = updatedUser
+        } catch {
+            // await setError(error)
+        }
+    }
+    
+    struct ProfileView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
 }
