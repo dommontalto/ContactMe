@@ -67,6 +67,21 @@ struct ProfileView: View {
                         }
                     }
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        // MARK: Two Action's
+                        // 1. Logout
+                        // 2. Delete Account
+                        Button("Logout",action: logOutUser)
+                        
+                        Button("Delete Account",role: .destructive,action: deleteAccount)
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .rotationEffect(.init(degrees: 90))
+                            .tint(.black)
+                            .scaleEffect(0.8)
+                    }
+                }
             }
         }
         .overlay {
@@ -147,3 +162,4 @@ struct ProfileView: View {
         }
     }
 }
+

@@ -39,10 +39,12 @@ struct LoginView: View {
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
                     .padding(.top,25)
+                    .onSubmit { loginUser() }
                 
                 SecureField("Password", text: $password)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
+                    .onSubmit { loginUser() }
                 
                 Button("Reset password?", action: resetPassword)
                     .font(.callout)

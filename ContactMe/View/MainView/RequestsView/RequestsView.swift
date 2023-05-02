@@ -38,7 +38,7 @@ struct RequestsView: View {
                             ForEach(friendRequests) { request in
                                 if let sender = users[request.senderUID] {
                                     HStack {
-                                        Text("Request from \(sender.userPIN)")
+                                        Text("Request from \(sender.fullName)")
                                         Spacer()
                                         Button(action: {
                                             Task { await acceptFriendRequest(request) }

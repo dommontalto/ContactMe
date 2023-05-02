@@ -18,9 +18,14 @@ struct SearchUserView: View {
         List {
             ForEach(fetchedUsers) { user in
                 HStack {
+                    Text(user.fullName)
+                        .font(.callout)
+                        .hAlign(.leading)
+                    
                     Text(user.userPIN)
                         .font(.callout)
                         .hAlign(.leading)
+                        .foregroundColor(.gray)
                     
                     Spacer()
                     
@@ -64,16 +69,28 @@ struct SearchUserView: View {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
 
         do {
-            let documents = try await Firestore.firestore().collection("Users")
-                .whereField("username", isGreaterThanOrEqualTo: searchText)
-                .whereField("username", isLessThanOrEqualTo: "\(searchText)\u{f8ff}")
+            // Query for 'fullName'
+            let fullNameDocuments = try await Firestore.firestore().collection("Users")
+                .whereField("fullName", isGreaterThanOrEqualTo: searchText)
+                .whereField("fullName", isLessThanOrEqualTo: "\(searchText)\u{f8ff}")
                 .limit(to: 10)
                 .getDocuments()
 
-            let users = try documents.documents.compactMap { doc -> User? in
+            // Query for 'userPIN'
+            let userPINDocuments = try await Firestore.firestore().collection("Users")
+                .whereField("userPIN", isGreaterThanOrEqualTo: searchText)
+                .whereField("userPIN", isLessThanOrEqualTo: "\(searchText)\u{f8ff}")
+                .limit(to: 10)
+                .getDocuments()
+
+            // Merge the results of both queries
+            let allDocuments = fullNameDocuments.documents + userPINDocuments.documents
+
+            let users = try allDocuments.compactMap { doc -> User? in
                 let user = try doc.data(as: User.self)
                 return user.userUID != currentUserUID ? user : nil
             }
+            .unique() // Remove duplicates
 
             await MainActor.run(body: {
                 fetchedUsers = users
@@ -82,6 +99,7 @@ struct SearchUserView: View {
             print(error.localizedDescription)
         }
     }
+
 
 
     func sendFriendRequest(to user: User) async {
@@ -136,5 +154,12 @@ struct SearchUserView: View {
 struct SearchUserView_Previews: PreviewProvider {
     static var previews: some View {
         SearchUserView()
+    }
+}
+
+extension Array where Element: Hashable {
+    func unique() -> [Element] {
+        var seen = Set<Element>()
+        return filter { seen.insert($0).inserted }
     }
 }

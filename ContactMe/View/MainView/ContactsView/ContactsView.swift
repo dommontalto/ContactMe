@@ -11,56 +11,74 @@ import FirebaseFirestore
 import FirebaseAuth
 
 struct ContactsView: View {
-    @State private var friends: [User] = []
+    @State private var contacts: [User] = []
     
     var body: some View {
         NavigationView {
-            List(friends) { friend in
-                NavigationLink(destination: ReusableProfileContent(user: friend)) {
-                    Text(friend.userPIN)
-                        .font(.headline)
+            if contacts.isEmpty {
+                VStack {
+                    Spacer()
+                    Text("No Contacts")
+                        .font(.largeTitle)
+                        .foregroundColor(.gray)
+                    Spacer()
                 }
-            }
-            .refreshable {
-                await fetchFriends()
-            }
-            .navigationTitle("Contacts")
-            .onAppear {
-                if friends.isEmpty {
-                    Task { await fetchFriends() }
+                .navigationTitle("Contacts")
+                .onAppear {
+                    if contacts.isEmpty {
+                        Task { await fetchFriends() }
+                    }
+                }
+            } else {
+                List(contacts) { friend in
+                    NavigationLink(destination: ReusableProfileContent(user: friend)) {
+                        Text(friend.fullName)
+                            .font(.headline)
+                    }
+                }
+                .refreshable {
+                    await fetchFriends()
+                }
+                .navigationTitle("Contacts")
+                .onAppear {
+                    if contacts.isEmpty {
+                        Task { await fetchFriends() }
+                    }
                 }
             }
         }
     }
+    
+    
     func fetchFriends() async {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-
+        
         // Clear the friends array
         await MainActor.run {
-            friends.removeAll()
+            contacts.removeAll()
         }
-
+        
         do {
             let senderDocuments = try await Firestore.firestore().collection("FriendRequests")
                 .whereField("receiverUID", isEqualTo: currentUserUID)
                 .whereField("status", isEqualTo: "accepted")
                 .getDocuments()
-
+            
             let receiverDocuments = try await Firestore.firestore().collection("FriendRequests")
                 .whereField("senderUID", isEqualTo: currentUserUID)
                 .whereField("status", isEqualTo: "accepted")
                 .getDocuments()
-
+            
             let senderUIDs = senderDocuments.documents.compactMap { doc -> String? in
                 doc.get("senderUID") as? String
             }
-
+            
             let receiverUIDs = receiverDocuments.documents.compactMap { doc -> String? in
                 doc.get("receiverUID") as? String
             }
-
+            
             let allUIDs = Array(Set(senderUIDs + receiverUIDs))
-
+            
             for uid in allUIDs {
                 Task { await fetchFriendDetails(uid) }
             }
@@ -68,18 +86,18 @@ struct ContactsView: View {
             print("Error fetching friends: \(error)")
         }
     }
-
-
-
+    
+    
+    
     func fetchFriendDetails(_ uid: String) async {
         do {
             let document = try await Firestore.firestore().collection("Users")
                 .document(uid)
                 .getDocument()
-        
+            
             if let friend = try? document.data(as: User.self), friend != nil {
                 await MainActor.run {
-                    friends.append(friend)
+                    contacts.append(friend)
                 }
             }
         } catch {

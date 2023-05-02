@@ -33,10 +33,6 @@ struct RegisterView: View{
     @AppStorage("full_name") var fullNameStored: String = ""
     @AppStorage("user_UID") var userUID: String = ""
     
-    init() {
-        generateRandomPin()
-    }
-    
     var body: some View{
         VStack(spacing: 10){
             Text("Lets Register\nAccount")
@@ -93,6 +89,9 @@ struct RegisterView: View{
         }
         // MARK: Displaying Alert
         .alert(errorMessage, isPresented: $showError, actions: {})
+        .onAppear {
+            generateRandomPin()
+        }
     }
     
     @ViewBuilder
@@ -213,7 +212,7 @@ struct PINCodeView: View {
             Text(pin)
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading)
+                .padding(.leading, 0) 
 
             Button(action: {
                 onRefresh()
@@ -221,8 +220,9 @@ struct PINCodeView: View {
                 Image(systemName: "arrow.clockwise")
                     .font(.system(size: 14, weight: .bold))
             }
-            .padding(.trailing)
+            .padding(.trailing, 0)
         }
         .border(1, .gray.opacity(0.5))
     }
 }
+
