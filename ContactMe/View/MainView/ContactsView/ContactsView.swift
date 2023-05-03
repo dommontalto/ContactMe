@@ -24,7 +24,7 @@ struct ContactsView: View {
                     Spacer()
                 }
                 .navigationTitle("Contacts")
-                .navigationBarTitleDisplayMode(.inline) // Add this line
+                .navigationBarTitleDisplayMode(.inline) 
                 .onAppear {
                     if contacts.isEmpty {
                         Task { await fetchFriends() }
@@ -45,7 +45,7 @@ struct ContactsView: View {
                     await fetchFriends()
                 }
                 .navigationTitle("Contacts")
-                .navigationBarTitleDisplayMode(.inline) // Add this line
+                .navigationBarTitleDisplayMode(.inline)
                 .onAppear {
                     if contacts.isEmpty {
                         Task { await fetchFriends() }

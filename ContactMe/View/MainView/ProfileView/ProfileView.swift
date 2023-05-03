@@ -51,33 +51,47 @@ struct ProfileView: View {
                            VStack {
                                TextField("Full Name", text: $editedUser.fullName)
                                    .border(1, .gray.opacity(0.5))
+                                   .autocapitalization(.none)
+                               
                                TextField("Location", text: $editedUser.location)
                                    .border(1, .gray.opacity(0.5))
+                                   .autocapitalization(.none)
+                               
                                TextField("Mobile", text: Binding<String>(
                                    get: { editedUser.mobile ?? "" },
                                    set: { editedUser.mobile = $0.isEmpty ? nil : $0 }
                                ))
                                .border(1, .gray.opacity(0.5))
+                               .autocapitalization(.none)
+                               
                                TextField("Email", text: Binding<String>(
                                    get: { editedUser.email ?? "" },
                                    set: { editedUser.email = $0.isEmpty ? nil : $0 }
                                ))
                                .border(1, .gray.opacity(0.5))
+                               .autocapitalization(.none)
+                               
                                TextField("Twitter", text: Binding<String>(
                                    get: { editedUser.twitter ?? "" },
                                    set: { editedUser.twitter = $0.isEmpty ? nil : $0 }
                                ))
                                .border(1, .gray.opacity(0.5))
+                               .autocapitalization(.none)
+                               
                                TextField("Instagram", text: Binding<String>(
                                    get: { editedUser.instagram ?? "" },
                                    set: { editedUser.instagram = $0.isEmpty ? nil : $0 }
                                ))
                                .border(1, .gray.opacity(0.5))
+                               .autocapitalization(.none)
+                               
                                TextField("Telegram", text: Binding<String>(
                                    get: { editedUser.telegram ?? "" },
                                    set: { editedUser.telegram = $0.isEmpty ? nil : $0 }
                                ))
                                .border(1, .gray.opacity(0.5))
+                               .autocapitalization(.none)
+                               
                                Button("Confirm", action: {
                                    saveChanges()
                                    showEditPopover.toggle()

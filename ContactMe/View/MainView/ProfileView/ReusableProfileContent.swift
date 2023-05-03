@@ -1,10 +1,3 @@
-//
-//  ReusableProfileContent.swift
-//  SocialMedia
-//
-//  Created by Dom Montalto on 01/05/23.
-//
-
 import SwiftUI
 import SDWebImageSwiftUI
 
@@ -12,90 +5,101 @@ struct ReusableProfileContent: View {
     var user: User
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(alignment: .leading) {
-                HStack(spacing: 12) {
-                    WebImage(url: user.userProfileURL).placeholder {
-                        // MARK: Placeholder Image
-                        Image("NullProfile")
-                            .resizable()
-                    }
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(user.fullName)
-                            .font(.title3)
-                            .fontWeight(.semibold)
+        List {
+            Section {
+                VStack {
+                    HStack(spacing: 12) {
+                        WebImage(url: user.userProfileURL).placeholder {
+                            // MARK: Placeholder Image
+                            Image("NullProfile")
+                                .resizable()
+                        }
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .padding(.leading, -20)
+                        .padding(.top, -10)     
                         
-                        Text(user.userPIN)
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .lineLimit(3)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(user.fullName)
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            
+                            Text(user.userPIN)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .lineLimit(3)
+                        }
                     }
+                }
+                .background(Color(UIColor.systemGroupedBackground))
+            }
+            .listRowBackground(Color(UIColor.systemGroupedBackground))
+            
+            Section {
+                if let mobile = user.mobile {
+                    HStack(spacing: 12) {
+                        Image("mobile")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                        Text(mobile)
+                    }
+                    .padding(.leading, -8)
                 }
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    if let mobile = user.mobile {
-                        HStack(spacing: 12) {
-                            Image("mobile")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                            Text(mobile)
-                        }
+                if let email = user.email {
+                    HStack(spacing: 12) {
+                        Image("email")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                        Text(email)
                     }
-                    
-                    if let email = user.email {
-                        HStack(spacing: 12) {
-                            Image("email")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                            Text(email)
-                        }
-                    }
-                    
-                    if let twitter = user.twitter {
-                        HStack(spacing: 12) {
-                            Image("twitter")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                            Text(twitter)
-                        }
-                    }
-                    
-                    if let instagram = user.instagram {
-                        HStack(spacing: 12) {
-                            Image("instagram")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                            Text(instagram)
-                        }
-                    }
-                    
-                    if let telegram = user.telegram {
-                        HStack(spacing: 12) {
-                            Image("telegram")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                .clipShape(Circle())
-                            Text(telegram)
-                        }
-                    }
+                    .padding(.leading, -8)
                 }
-                .padding(.top, 8)
+                
+                if let twitter = user.twitter {
+                    HStack(spacing: 12) {
+                        Image("twitter")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                        Text(twitter)
+                    }
+                    .padding(.leading, -8)
+                }
+                
+                if let instagram = user.instagram {
+                    HStack(spacing: 12) {
+                        Image("instagram")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                        Text(instagram)
+                    }
+                    .padding(.leading, -8)
+                }
+                
+                if let telegram = user.telegram {
+                    HStack(spacing: 12) {
+                        Image("telegram")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 30, height: 30)
+                            .clipShape(Circle())
+                        Text(telegram)
+                    }
+                    .padding(.leading, -8)
+                }
+               
             }
-            .padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
         }
+        .listStyle(InsetGroupedListStyle())
     }
 }

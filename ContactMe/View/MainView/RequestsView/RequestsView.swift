@@ -45,6 +45,7 @@ struct RequestsView: View {
                     }
                 }
                 .navigationTitle("Requests")
+                .navigationBarTitleDisplayMode(.inline) 
                 .background(
                     NavigationLink(destination: SearchUserView(), isActive: $showSearchUserView) {
                         EmptyView()
