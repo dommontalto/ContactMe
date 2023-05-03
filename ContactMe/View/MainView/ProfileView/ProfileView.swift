@@ -42,7 +42,6 @@ struct ProfileView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle("Profile")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Edit", action: {

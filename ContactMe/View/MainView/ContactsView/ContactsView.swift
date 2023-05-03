@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct ContactsView: View {
     @State private var contacts: [User] = []
-    
+
     var body: some View {
         NavigationView {
             if contacts.isEmpty {
@@ -24,6 +24,7 @@ struct ContactsView: View {
                     Spacer()
                 }
                 .navigationTitle("Contacts")
+                .navigationBarTitleDisplayMode(.inline) // Add this line
                 .onAppear {
                     if contacts.isEmpty {
                         Task { await fetchFriends() }
@@ -31,7 +32,11 @@ struct ContactsView: View {
                 }
             } else {
                 List(contacts) { friend in
-                    NavigationLink(destination: ReusableProfileContent(user: friend)) {
+                    NavigationLink(destination:
+                        VStack {
+                            ReusableProfileContent(user: friend)
+                        }
+                    ) {
                         Text(friend.fullName)
                             .font(.headline)
                     }
@@ -40,6 +45,7 @@ struct ContactsView: View {
                     await fetchFriends()
                 }
                 .navigationTitle("Contacts")
+                .navigationBarTitleDisplayMode(.inline) // Add this line
                 .onAppear {
                     if contacts.isEmpty {
                         Task { await fetchFriends() }
@@ -48,8 +54,7 @@ struct ContactsView: View {
             }
         }
     }
-    
-    
+
     func fetchFriends() async {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
         
@@ -86,8 +91,6 @@ struct ContactsView: View {
             print("Error fetching friends: \(error)")
         }
     }
-    
-    
     
     func fetchFriendDetails(_ uid: String) async {
         do {
