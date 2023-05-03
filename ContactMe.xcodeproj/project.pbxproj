@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B3FC2022A03007E00B19105 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3FC2012A03007E00B19105 /* Request.swift */; };
 		9B673EE12A00320C004FC500 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B673EE02A00320C004FC500 /* GoogleService-Info.plist */; };
 		9B673EE32A003685004FC500 /* RequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B673EE22A003685004FC500 /* RequestsView.swift */; };
 		AD22B29C294A354000336F09 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22B29B294A354000336F09 /* RegisterView.swift */; };
@@ -15,7 +16,6 @@
 		AD22B2A5294A373100336F09 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22B2A4294A373100336F09 /* ProfileView.swift */; };
 		AD22B2A7294A3C6300336F09 /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22B2A6294A3C6300336F09 /* ReusableProfileContent.swift */; };
 		AD22B2AA294A3D4A00336F09 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AD22B2A9294A3D4A00336F09 /* SDWebImageSwiftUI */; };
-		AD70792F295875ED0043CAA5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD70792E295875ED0043CAA5 /* Request.swift */; };
 		AD70793129587FCA0043CAA5 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD70793029587FCA0043CAA5 /* ContactsView.swift */; };
 		ADC5E73B295B3478008034B3 /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC5E73A295B3478008034B3 /* SearchUserView.swift */; };
 		ADDA1FB329410338006E1497 /* ContactMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDA1FB229410338006E1497 /* ContactMeApp.swift */; };
@@ -32,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9B3FC2012A03007E00B19105 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		9B673EE02A00320C004FC500 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9B673EE22A003685004FC500 /* RequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsView.swift; sourceTree = "<group>"; };
 		AD22B29B294A354000336F09 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -39,7 +40,6 @@
 		AD22B2A0294A35AF00336F09 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AD22B2A4294A373100336F09 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		AD22B2A6294A3C6300336F09 /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProfileContent.swift; sourceTree = "<group>"; };
-		AD70792E295875ED0043CAA5 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		AD70793029587FCA0043CAA5 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		ADC5E73A295B3478008034B3 /* SearchUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
 		ADDA1FAF29410338006E1497 /* ContactMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,7 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				ADDA1FD129411089006E1497 /* User.swift */,
-				AD70792E295875ED0043CAA5 /* Request.swift */,
+				9B3FC2012A03007E00B19105 /* Request.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,7 +275,6 @@
 				ADDA1FD229411089006E1497 /* User.swift in Sources */,
 				AD22B2A5294A373100336F09 /* ProfileView.swift in Sources */,
 				AD22B2A7294A3C6300336F09 /* ReusableProfileContent.swift in Sources */,
-				AD70792F295875ED0043CAA5 /* Request.swift in Sources */,
 				AD22B2A1294A35AF00336F09 /* MainView.swift in Sources */,
 				ADDA1FC929410583006E1497 /* LoginView.swift in Sources */,
 				ADDA1FB529410338006E1497 /* ContentView.swift in Sources */,
@@ -284,6 +283,7 @@
 				AD22B29C294A354000336F09 /* RegisterView.swift in Sources */,
 				ADDA1FD429411460006E1497 /* LoadingView.swift in Sources */,
 				ADDA1FB329410338006E1497 /* ContactMeApp.swift in Sources */,
+				9B3FC2022A03007E00B19105 /* Request.swift in Sources */,
 				ADC5E73B295B3478008034B3 /* SearchUserView.swift in Sources */,
 				9B673EE32A003685004FC500 /* RequestsView.swift in Sources */,
 			);

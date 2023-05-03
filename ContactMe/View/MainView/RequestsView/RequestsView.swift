@@ -1,21 +1,14 @@
 //
 //  RequestsView.swift
-//  SocialMedia
+//  ContactMe
 //
-//  Created by Dom Montalto on 1/5/2023.
+//  Created By Dom Montalto 01/05/23.
 //
 
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 import FirebaseFirestoreSwift
-
-struct Request: Identifiable, Codable {
-    @DocumentID var id: String?
-    var senderUID: String
-    var receiverUID: String
-    var status: String
-}
 
 struct RequestsView: View {
     @State private var friendRequests: [Request] = []
