@@ -26,76 +26,96 @@ struct ProfileView: View {
     // Add @State to manage popover presentation
     @State private var showEditPopover: Bool = false
     // Add @State to manage the edited user
-    @State private var editedUser: User = User(id: nil, fullName: "", userPIN: "", location: "", userUID: "", userEmail: "", userProfileURL: URL(string: "https://example.com")!)
+    @State private var editedUser: User = User(id: nil, fullName: "", userPIN: "", location: "", userUID: "", userEmail: "", userProfileURL: URL(string: "https://example.com")!, mobile: "", twitter: "", instagram: "", telegram: "")
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                if let myProfile {
-                    ReusableProfileContent(user: myProfile)
-                        .refreshable {
-                            // MARK: Refresh User Data
-                            self.myProfile = nil
-                            await fetchUserData()
-                        }
-                } else {
-                    ProgressView()
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Edit", action: {
-                        showEditPopover.toggle()
-                    })
-                    .popover(isPresented: $showEditPopover) {
-                        VStack {
-                            TextField("Full Name", text: $editedUser.fullName)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            TextField("Location", text: $editedUser.location)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            Button("Confirm", action: {
-                                saveChanges()
-                                showEditPopover.toggle()
-                            })
-                            .padding(.top)
-                        }
-                        .padding()
-                        .onAppear {
-                            guard let myProfile else { return }
-                            editedUser = myProfile
-                        }
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        // MARK: Two Action's
-                        // 1. Logout
-                        // 2. Delete Account
-                        Button("Logout",action: logOutUser)
-                        
-                        Button("Delete Account",role: .destructive,action: deleteAccount)
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .rotationEffect(.init(degrees: 90))
-                            .tint(.black)
-                            .scaleEffect(0.8)
-                    }
-                }
-            }
-        }
-        .overlay {
-            LoadingView(show: $isLoading)
-        }
-        .alert(errorMessage, isPresented: $showError) {
-        }
-        .task {
-            // This Modifier is like onAppear
-            // So Fetching for the First Time Only
-            if myProfile != nil { return }
-            // MARK: Initial Fetch
-            await fetchUserData()
-        }
-    }
+           NavigationStack {
+               VStack {
+                   if let myProfile = myProfile {
+                       ReusableProfileContent(user: myProfile)
+                           .refreshable {
+                               // MARK: Refresh User Data
+                               self.myProfile = nil
+                               await fetchUserData()
+                           }
+                   } else {
+                       ProgressView()
+                   }
+               }
+               .toolbar {
+                   ToolbarItemGroup(placement: .navigationBarLeading) {
+                       Button("Edit", action: {
+                           showEditPopover.toggle()
+                       })
+                       .popover(isPresented: $showEditPopover) {
+                           VStack {
+                               TextField("Full Name", text: $editedUser.fullName)
+                                   .textFieldStyle(RoundedBorderTextFieldStyle())
+                               TextField("Location", text: $editedUser.location)
+                                   .textFieldStyle(RoundedBorderTextFieldStyle())
+                               TextField("Mobile", text: Binding<String>(
+                                   get: { editedUser.mobile ?? "" },
+                                   set: { editedUser.mobile = $0.isEmpty ? nil : $0 }
+                               ))
+                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               TextField("Twitter", text: Binding<String>(
+                                   get: { editedUser.twitter ?? "" },
+                                   set: { editedUser.twitter = $0.isEmpty ? nil : $0 }
+                               ))
+                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               TextField("Instagram", text: Binding<String>(
+                                   get: { editedUser.instagram ?? "" },
+                                   set: { editedUser.instagram = $0.isEmpty ? nil : $0 }
+                               ))
+                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               TextField("Telegram", text: Binding<String>(
+                                   get: { editedUser.telegram ?? "" },
+                                   set: { editedUser.telegram = $0.isEmpty ? nil : $0 }
+                               ))
+                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               Button("Confirm", action: {
+                                   saveChanges()
+                                   showEditPopover.toggle()
+                               })
+                               .padding(.top)
+                           }
+                           .padding()
+                           .onAppear {
+                               guard let myProfile = myProfile else { return }
+                               editedUser = myProfile
+                           }
+                       }
+                   }
+                   ToolbarItemGroup(placement: .navigationBarTrailing) {
+                       Menu {
+                           // MARK: Two Action's
+                           // 1. Logout
+                           // 2. Delete Account
+                           Button("Logout",action: logOutUser)
+                           
+                           Button("Delete Account",role: .destructive,action: deleteAccount)
+                       } label: {
+                           Image(systemName: "ellipsis")
+                               .rotationEffect(.init(degrees: 90))
+                               .tint(.black)
+                               .scaleEffect(0.8)
+                       }
+                   }
+               }
+           }
+           .overlay {
+               LoadingView(show: $isLoading)
+           }
+           .alert(errorMessage, isPresented: $showError) {
+           }
+           .task {
+               // This Modifier is like onAppear
+               // So Fetching for the First Time Only
+               if myProfile != nil { return }
+               // MARK: Initial Fetch
+               await fetchUserData()
+           }
+       }
     
     // MARK: Fetching User Data
     func fetchUserData() async {

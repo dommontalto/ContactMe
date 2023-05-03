@@ -37,42 +37,49 @@ struct ReusableProfileContent: View {
                     }
                 }
 
-                // Add the icons and text here
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack(spacing: 12) {
-                        Image("Mobile") // Replace with your mobile image name
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
+                    if let mobile = user.mobile {
+                        HStack(spacing: 12) {
+                            Image("Mobile")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                .clipShape(Circle())
+                            Text(mobile)
+                        }
                     }
-                    HStack(spacing: 12) {
-                        Image("Email") // Replace with your email image name
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
+                    
+                    if let twitter = user.twitter {
+                        HStack(spacing: 12) {
+                            Image("Twitter")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                .clipShape(Circle())
+                            Text(twitter)
+                        }
                     }
-                    HStack(spacing: 12) {
-                        Image("Twitter") // Replace with your Twitter image name
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
+                    
+                    if let instagram = user.instagram {
+                        HStack(spacing: 12) {
+                            Image("Instagram")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                .clipShape(Circle())
+                            Text(instagram)
+                        }
                     }
-                    HStack(spacing: 12) {
-                        Image("Instagram") // Replace with your Instagram image name
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                    }
-                    HStack(spacing: 12) {
-                        Image("Telegram") // Replace with your Telegram image name
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
+                    
+                    if let telegram = user.telegram {
+                        HStack(spacing: 12) {
+                            Image("Telegram")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                .clipShape(Circle())
+                            Text(telegram)
+                        }
                     }
                 }
                 .padding(.top, 8)

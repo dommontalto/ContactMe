@@ -16,6 +16,10 @@ struct User: Identifiable,Codable,Hashable {
     var userUID: String
     var userEmail: String
     var userProfileURL: URL
+    var mobile: String?
+    var twitter: String?
+    var instagram: String?
+    var telegram: String?
     
     enum CodingKeys: CodingKey {
         case id
@@ -25,5 +29,10 @@ struct User: Identifiable,Codable,Hashable {
         case userUID
         case userEmail
         case userProfileURL
+        case mobile
+        case twitter
+        case instagram
+        case telegram
+        
     }
 }
