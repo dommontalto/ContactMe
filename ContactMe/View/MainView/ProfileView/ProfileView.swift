@@ -50,29 +50,34 @@ struct ProfileView: View {
                        .popover(isPresented: $showEditPopover) {
                            VStack {
                                TextField("Full Name", text: $editedUser.fullName)
-                                   .textFieldStyle(RoundedBorderTextFieldStyle())
+                                   .border(1, .gray.opacity(0.5))
                                TextField("Location", text: $editedUser.location)
-                                   .textFieldStyle(RoundedBorderTextFieldStyle())
+                                   .border(1, .gray.opacity(0.5))
                                TextField("Mobile", text: Binding<String>(
                                    get: { editedUser.mobile ?? "" },
                                    set: { editedUser.mobile = $0.isEmpty ? nil : $0 }
                                ))
-                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               .border(1, .gray.opacity(0.5))
+                               TextField("Email", text: Binding<String>(
+                                   get: { editedUser.email ?? "" },
+                                   set: { editedUser.email = $0.isEmpty ? nil : $0 }
+                               ))
+                               .border(1, .gray.opacity(0.5))
                                TextField("Twitter", text: Binding<String>(
                                    get: { editedUser.twitter ?? "" },
                                    set: { editedUser.twitter = $0.isEmpty ? nil : $0 }
                                ))
-                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               .border(1, .gray.opacity(0.5))
                                TextField("Instagram", text: Binding<String>(
                                    get: { editedUser.instagram ?? "" },
                                    set: { editedUser.instagram = $0.isEmpty ? nil : $0 }
                                ))
-                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               .border(1, .gray.opacity(0.5))
                                TextField("Telegram", text: Binding<String>(
                                    get: { editedUser.telegram ?? "" },
                                    set: { editedUser.telegram = $0.isEmpty ? nil : $0 }
                                ))
-                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                               .border(1, .gray.opacity(0.5))
                                Button("Confirm", action: {
                                    saveChanges()
                                    showEditPopover.toggle()

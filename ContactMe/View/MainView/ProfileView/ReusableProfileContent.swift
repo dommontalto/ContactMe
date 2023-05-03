@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
     var user: User
-   
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(alignment: .leading) {
@@ -36,11 +36,11 @@ struct ReusableProfileContent: View {
                             .lineLimit(3)
                     }
                 }
-
+                
                 VStack(alignment: .leading, spacing: 8) {
                     if let mobile = user.mobile {
                         HStack(spacing: 12) {
-                            Image("Mobile")
+                            Image("mobile")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 30, height: 30)
@@ -49,9 +49,20 @@ struct ReusableProfileContent: View {
                         }
                     }
                     
+                    if let email = user.email {
+                        HStack(spacing: 12) {
+                            Image("email")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                .clipShape(Circle())
+                            Text(email)
+                        }
+                    }
+                    
                     if let twitter = user.twitter {
                         HStack(spacing: 12) {
-                            Image("Twitter")
+                            Image("twitter")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 30, height: 30)
@@ -62,7 +73,7 @@ struct ReusableProfileContent: View {
                     
                     if let instagram = user.instagram {
                         HStack(spacing: 12) {
-                            Image("Instagram")
+                            Image("instagram")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 30, height: 30)
@@ -73,7 +84,7 @@ struct ReusableProfileContent: View {
                     
                     if let telegram = user.telegram {
                         HStack(spacing: 12) {
-                            Image("Telegram")
+                            Image("telegram")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 30, height: 30)

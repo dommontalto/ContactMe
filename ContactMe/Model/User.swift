@@ -17,6 +17,7 @@ struct User: Identifiable,Codable,Hashable {
     var userEmail: String
     var userProfileURL: URL
     var mobile: String?
+    var email: String?
     var twitter: String?
     var instagram: String?
     var telegram: String?
@@ -30,6 +31,7 @@ struct User: Identifiable,Codable,Hashable {
         case userEmail
         case userProfileURL
         case mobile
+        case email
         case twitter
         case instagram
         case telegram
