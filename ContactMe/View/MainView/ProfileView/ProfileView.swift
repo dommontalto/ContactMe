@@ -54,6 +54,7 @@ struct ProfileView: View {
                                     TextField("Full Name", text: $editedUser.fullName)
                                         .border(1, .gray.opacity(0.5))
                                         .autocapitalization(.none)
+                                        .padding(.top)
                                     
                                     TextField("Location", text: Binding<String>(
                                         get: { editedUser.location ?? "" },
@@ -91,6 +92,7 @@ struct ProfileView: View {
                                     .autocapitalization(.none)
                                     
                                 }
+                                .padding(.horizontal)
                                 
                                 VStack {
                                     TextField("Facebook", text: Binding<String>(
@@ -155,7 +157,9 @@ struct ProfileView: View {
                                     ))
                                     .border(1, .gray.opacity(0.5))
                                     .autocapitalization(.none)
+                                    .padding(.bottom)
                                 }
+                                .padding(.horizontal)
                             }
                         }
                         HStack {
@@ -164,7 +168,7 @@ struct ProfileView: View {
                             })
                             .padding(.top)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            
+                                                      
                             Button("Confirm", action: {
                                 saveChanges()
                                 showEditPopover.toggle()
@@ -172,6 +176,10 @@ struct ProfileView: View {
                             .padding(.top)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                         }
+                        .padding(.leading, 40)
+                        .padding(.trailing, 40)
+                        .background(Color.white.opacity(0.5))
+                        .cornerRadius(10)
                     }
                     .padding()
                     .onAppear {

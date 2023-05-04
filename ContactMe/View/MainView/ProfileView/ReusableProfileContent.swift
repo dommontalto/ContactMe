@@ -25,11 +25,13 @@ struct ReusableProfileContent: View {
                             Text(user.fullName)
                                 .font(.title3)
                                 .fontWeight(.semibold)
+                                .padding(.leading, 5)
                             
                             Text(user.userPIN)
                                 .font(.caption)
                                 .foregroundColor(.gray)
                                 .lineLimit(3)
+                                .padding(.leading, 5)
                         }
                     }
                 }

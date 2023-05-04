@@ -1,8 +1,8 @@
 //
-//  SocialMediaApp.swift
+//  ContactMeApp.swift
 //  ContactMe
 //
-//  Created By Dom Montalto 01/05/23.
+//  Created by Dom Montalto on 01/05/2023.
 //
 
 import SwiftUI

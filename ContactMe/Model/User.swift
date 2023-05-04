@@ -50,5 +50,6 @@ struct User: Identifiable,Codable,Hashable {
         case linkedin
         case discord
         case youtube
+        case tiktok
     }
 }

@@ -193,9 +193,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ADDA1FAE29410338006E1497 /* SocialMedia */ = {
+		ADDA1FAE29410338006E1497 /* ContactMe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ADDA1FBE29410339006E1497 /* Build configuration list for PBXNativeTarget "SocialMedia" */;
+			buildConfigurationList = ADDA1FBE29410339006E1497 /* Build configuration list for PBXNativeTarget "ContactMe" */;
 			buildPhases = (
 				ADDA1FAB29410338006E1497 /* Sources */,
 				ADDA1FAC29410338006E1497 /* Frameworks */,
@@ -205,7 +205,7 @@
 			);
 			dependencies = (
 			);
-			name = SocialMedia;
+			name = ContactMe;
 			packageProductDependencies = (
 				ADDA1FC42941054B006E1497 /* FirebaseAuth */,
 				ADDA1FCB29410EBF006E1497 /* FirebaseFirestore */,
@@ -249,7 +249,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ADDA1FAE29410338006E1497 /* SocialMedia */,
+				ADDA1FAE29410338006E1497 /* ContactMe */,
 			);
 		};
 /* End PBXProject section */
@@ -491,7 +491,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ADDA1FBE29410339006E1497 /* Build configuration list for PBXNativeTarget "SocialMedia" */ = {
+		ADDA1FBE29410339006E1497 /* Build configuration list for PBXNativeTarget "ContactMe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ADDA1FBF29410339006E1497 /* Debug */,

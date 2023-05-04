@@ -26,6 +26,12 @@ struct LoginView: View {
     @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
         VStack(spacing: 10){
+            
+            Image("logo")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+                        
             Text("Lets Sign you in")
                 .font(.largeTitle.bold())
                 .hAlign(.leading)
@@ -39,11 +45,13 @@ struct LoginView: View {
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
                     .padding(.top,25)
+                    .autocapitalization(.none)
                     .onSubmit { loginUser() }
                 
                 SecureField("Password", text: $password)
                     .textContentType(.emailAddress)
                     .border(1, .gray.opacity(0.5))
+                    .autocapitalization(.none)
                     .onSubmit { loginUser() }
                 
                 Button("Reset password?", action: resetPassword)
