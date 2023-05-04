@@ -57,6 +57,7 @@ struct ProfileView: View {
                                     ))
                                     .border(1, .gray.opacity(0.5))
                                     .autocapitalization(.none)
+                                    .padding(.top, 20)
                                     
                                     TextField("Location", text: Binding<String>(
                                         get: { editedUser.location ?? "" },

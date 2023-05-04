@@ -19,7 +19,7 @@ struct ReusableProfileContent: View {
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
                         .padding(.leading, -20)
-                        .padding(.top, -10)     
+                        .padding(.top, -10)
                         
                         VStack(alignment: .leading, spacing: 6) {
                             Text(user.fullName ?? "")
@@ -40,68 +40,73 @@ struct ReusableProfileContent: View {
             .listRowBackground(Color(UIColor.systemGroupedBackground))
             
             Section {
-                if let mobile = user.mobile {
-                    HStack(spacing: 12) {
-                        Image("mobile")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        Text(mobile)
+                ForEach(0..<12) { index in
+                    switch index {
+                    case 0:
+                        if let location = user.location {
+                            profileDetailRow(imageName: "location", detailText: location)
+                        }
+                    case 1:
+                        if let birthday = user.birthday {
+                            profileDetailRow(imageName: "birthday", detailText: birthday)
+                        }
+                    case 2:
+                        if let email = user.email {
+                            profileDetailRow(imageName: "email", detailText: email)
+                        }
+                    case 3:
+                        if let mobile = user.mobile {
+                            profileDetailRow(imageName: "mobile", detailText: mobile)
+                        }
+                    case 4:
+                        if let whatsapp = user.whatsapp {
+                            profileDetailRow(imageName: "whatsapp", detailText: whatsapp)
+                        }
+                    case 5:
+                        if let facebook = user.facebook {
+                            profileDetailRow(imageName: "facebook", detailText: facebook)
+                        }
+                    case 6:
+                        if let facebookMessenger = user.facebookMessenger {
+                            profileDetailRow(imageName: "facebookMessenger", detailText: facebookMessenger)
+                        }
+                    case 7:
+                        if let twitter = user.twitter {
+                            profileDetailRow(imageName: "twitter", detailText: twitter)
+                        }
+                    case 8:
+                        if let instagram = user.instagram {
+                            profileDetailRow(imageName: "instagram", detailText: instagram)
+                        }
+                    case 9:
+                        if let telegram = user.telegram {
+                            profileDetailRow(imageName: "telegram", detailText: telegram)
+                        }
+                    case 10:
+                        if let linkedin = user.linkedin {
+                            profileDetailRow(imageName: "linkedin", detailText: linkedin)
+                        }
+                    case 11:
+                        if let discord = user.discord {
+                            profileDetailRow(imageName: "discord", detailText: discord)
+                        }
+                    default:
+                        EmptyView()
                     }
-                    .padding(.leading, -8)
                 }
-                
-                if let email = user.email {
-                    HStack(spacing: 12) {
-                        Image("email")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        Text(email)
-                    }
-                    .padding(.leading, -8)
-                }
-                
-                if let twitter = user.twitter {
-                    HStack(spacing: 12) {
-                        Image("twitter")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        Text(twitter)
-                    }
-                    .padding(.leading, -8)
-                }
-                
-                if let instagram = user.instagram {
-                    HStack(spacing: 12) {
-                        Image("instagram")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        Text(instagram)
-                    }
-                    .padding(.leading, -8)
-                }
-                
-                if let telegram = user.telegram {
-                    HStack(spacing: 12) {
-                        Image("telegram")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 30, height: 30)
-                            .clipShape(Circle())
-                        Text(telegram)
-                    }
-                    .padding(.leading, -8)
-                }
-               
             }
         }
         .listStyle(InsetGroupedListStyle())
+    }
+    
+    fileprivate func profileDetailRow(imageName: String, detailText: String) -> some View {
+        HStack(spacing: 12) {
+            Image(imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 30, height: 30)
+                .clipShape(Circle())
+            Text(detailText)
+        }
     }
 }
