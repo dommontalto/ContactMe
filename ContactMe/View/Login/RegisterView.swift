@@ -18,7 +18,6 @@ struct RegisterView: View{
     @State var fullName: String = ""
     @State var password: String = ""
     @State var userPIN: String = ""
-    @State var location: String = ""
     @State var userProfilePicData: Data?
     // MARK: View Properties
     @Environment(\.dismiss) var dismiss
@@ -123,14 +122,12 @@ struct RegisterView: View{
             TextField("Email", text: $emailID)
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
+                .autocapitalization(.none)
             
             SecureField("Password", text: $password)
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
-            
-            TextField("Location", text: $location)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.5))
+                .autocapitalization(.none)
             
             PINCodeView(pin: $userPIN, onRefresh: generateRandomPin)
             
@@ -141,7 +138,7 @@ struct RegisterView: View{
                     .hAlign(.center)
                     .fillView(.black)
             }
-            .disableWithOpacity(fullName == "" || location == "" || emailID == "" || password == "" || userProfilePicData == nil)
+            .disableWithOpacity(fullName == "" || emailID == "" || password == "" || userProfilePicData == nil)
             .padding(.top,10)
         }
     }
@@ -161,7 +158,7 @@ struct RegisterView: View{
                 // Step 3: Downloading Photo URL
                 let downloadURL = try await storageRef.downloadURL()
                 // Step 4: Creating a User Firestore Object
-                let user = User(fullName: fullName, userPIN: userPIN, location: location, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL)
+                let user = User(userUID: userUID, userEmail: emailID, userProfileURL: downloadURL, fullName: fullName, userPIN: userPIN)
                 // Step 5: Saving User Doc into Firestore Database
                 let _ = try Firestore.firestore().collection("Users").document(userUID).setData(from: user, completion: { error in
                     if error == nil{
