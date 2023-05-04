@@ -45,7 +45,6 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button("Edit", action: {
-                        editedUser = myProfile ?? User()
                         showEditPopover.toggle()
                     })
                     .popover(isPresented: $showEditPopover) {
@@ -165,6 +164,11 @@ struct ProfileView: View {
                                 .padding(.horizontal)
                             }
                         }
+                        .onAppear {
+                            guard let myProfile = myProfile else { return }
+                            editedUser = myProfile
+                            
+                        }
                         HStack {
                             Button("Cancel", action: {
                                 showEditPopover.toggle()
@@ -185,11 +189,7 @@ struct ProfileView: View {
                         .cornerRadius(10)
                     }
                     .padding()
-                    .onAppear {
-                        guard let myProfile = myProfile else { return }
-                        editedUser = myProfile
-                        
-                    }
+                    
                 }
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Menu {
