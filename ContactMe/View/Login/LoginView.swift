@@ -120,7 +120,7 @@ struct LoginView: View {
         await MainActor.run(body: {
             // Setting UserDefaults data and Changing App's Auth Status
             userUID = userID
-            fullNameStored = user.fullName
+            fullNameStored = user.fullName ?? ""
             profileURL = user.userProfileURL
             logStatus = true
         })

@@ -22,12 +22,12 @@ struct ReusableProfileContent: View {
                         .padding(.top, -10)     
                         
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(user.fullName)
+                            Text(user.fullName ?? "")
                                 .font(.title3)
                                 .fontWeight(.semibold)
                                 .padding(.leading, 5)
                             
-                            Text(user.userPIN)
+                            Text(user.userPIN ?? "")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                                 .lineLimit(3)

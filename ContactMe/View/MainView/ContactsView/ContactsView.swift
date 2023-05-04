@@ -37,7 +37,7 @@ struct ContactsView: View {
                             ReusableProfileContent(user: friend)
                         }
                     ) {
-                        Text(friend.fullName)
+                        Text(friend.fullName ?? "")
                             .font(.headline)
                     }
                 }

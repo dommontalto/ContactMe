@@ -18,18 +18,18 @@ struct SearchUserView: View {
         List {
             ForEach(fetchedUsers) { user in
                 HStack {
-                    Text(user.fullName)
+                    Text(user.fullName ?? "")
                         .font(.callout)
                         .hAlign(.leading)
                     
-                    Text(user.userPIN)
+                    Text(user.userPIN ?? "" )
                         .font(.callout)
                         .hAlign(.leading)
                         .foregroundColor(.gray)
                     
                     Spacer()
                     
-                    switch friendRequests[user.userUID] {
+                    switch friendRequests[user.userUID ?? ""] {
                     case "pending":
                         Text("Requested")
                             .foregroundColor(.gray)
@@ -44,7 +44,7 @@ struct SearchUserView: View {
                         }
                     }
                 }
-                .disabled(friendRequests[user.userUID] != nil)
+                .disabled(friendRequests[user.userUID ?? ""] != nil)
             }
         }
         .listStyle(.plain)
@@ -105,7 +105,7 @@ struct SearchUserView: View {
     func sendFriendRequest(to user: User) async {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
 
-        let friendRequest = Request(senderUID: currentUserUID, receiverUID: user.userUID, status: "pending")
+        let friendRequest = Request(senderUID: currentUserUID, receiverUID: user.userUID ?? "", status: "pending")
         do {
             let _ = try await Firestore.firestore().collection("FriendRequests").addDocument(from: friendRequest)
         } catch {

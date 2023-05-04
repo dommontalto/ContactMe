@@ -26,7 +26,7 @@ struct ProfileView: View {
     // Add @State to manage popover presentation
     @State private var showEditPopover: Bool = false
     // Add @State to manage the edited user
-    @State private var editedUser: User = User(id: nil, userUID: "", userEmail: "", userProfileURL: URL(string: "https://example.com")!, fullName: "", userPIN: "", location: "", birthday: "", email: "", mobile: "", whatsapp: "", facebook: "", facebookMessenger: "", twitter: "", instagram: "", telegram: "", linkedin: "", discord: "", youtube: "", tiktok: "")
+    @State private var editedUser: User = User()
     
     var body: some View {
         NavigationStack {
@@ -45,16 +45,19 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button("Edit", action: {
+                        editedUser = myProfile ?? User()
                         showEditPopover.toggle()
                     })
                     .popover(isPresented: $showEditPopover) {
                         ScrollView{
                             VStack {
                                 VStack {
-                                    TextField("Full Name", text: $editedUser.fullName)
-                                        .border(1, .gray.opacity(0.5))
-                                        .autocapitalization(.none)
-                                        .padding(.top)
+                                    TextField("Full Name", text: Binding<String>(
+                                        get: { editedUser.fullName ?? "" },
+                                        set: { editedUser.fullName = $0.isEmpty ? nil : $0 }
+                                    ))
+                                    .border(1, .gray.opacity(0.5))
+                                    .autocapitalization(.none)
                                     
                                     TextField("Location", text: Binding<String>(
                                         get: { editedUser.location ?? "" },
@@ -268,7 +271,7 @@ struct ProfileView: View {
     
     func saveChanges() {
         guard let myProfile = myProfile else { return }
-        let userRef = Firestore.firestore().collection("Users").document(myProfile.userUID)
+        let userRef = Firestore.firestore().collection("Users").document(myProfile.userUID ?? "")
         do {
             try userRef.setData(from: editedUser)
             self.myProfile = editedUser
