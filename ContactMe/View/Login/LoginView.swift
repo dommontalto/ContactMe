@@ -32,13 +32,13 @@ struct LoginView: View {
                 .scaledToFit()
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
                         
-            Text("Lets Sign you in")
-                .font(.largeTitle.bold())
-                .hAlign(.leading)
+            Text("ContactMe")
+                .font(.largeTitle.monospaced().bold())
+                .hAlign(.center)
             
-            Text("Welcome Back,\nYou have been missed")
-                .font(.title3)
-                .hAlign(.leading)
+//            Text("Welcome Back,\nYou have been missed")
+//                .font(.title3)
+//                .hAlign(.leading)
             
             VStack(spacing: 12){
                 TextField("Email", text: $emailID)

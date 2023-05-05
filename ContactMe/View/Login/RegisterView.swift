@@ -34,13 +34,13 @@ struct RegisterView: View{
     
     var body: some View{
         VStack(spacing: 10){
-            Text("Lets Register\nAccount")
+            Text("Let's Register")
                 .font(.largeTitle.bold())
-                .hAlign(.leading)
+                .hAlign(.center)
             
-            Text("Hello user, have a wonderful journey")
+            Text("Enter your details below")
                 .font(.title3)
-                .hAlign(.leading)
+                .hAlign(.center)
             
             // MARK: For Smaller Size Optimization
             ViewThatFits {
@@ -53,7 +53,7 @@ struct RegisterView: View{
             
             // MARK: Register Button
             HStack{
-                Text("Already Have an account?")
+                Text("Already have an account?")
                     .foregroundColor(.gray)
                 
                 Button("Login Now"){
@@ -114,6 +114,7 @@ struct RegisterView: View{
                 showImagePicker.toggle()
             }
             .padding(.top,25)
+            .padding(.bottom,25)
             
             TextField("Full Name", text: $fullName)
                 .textContentType(.emailAddress)
