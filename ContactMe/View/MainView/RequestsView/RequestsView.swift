@@ -38,6 +38,12 @@ struct RequestsView: View {
                                         }) {
                                             Text("Accept")
                                         }
+                                        
+                                        Button(action: {
+                                            Task { await declineFriendRequest(request) }
+                                        }) {
+                                            Text("Decline")
+                                        }
                                     }
                                 }
                             }
@@ -124,5 +130,23 @@ struct RequestsView: View {
             print("Error accepting friend request: \(error)")
         }
     }
+    
+    func declineFriendRequest(_ request: Request) async {
+            guard let requestID = request.id else { return }
+
+            do {
+                try await Firestore.firestore().collection("FriendRequests")
+                    .document(requestID)
+                    .delete()
+
+                await MainActor.run {
+                    if let index = friendRequests.firstIndex(where: { $0.id == requestID }) {
+                        friendRequests.remove(at: index)
+                    }
+                }
+            } catch {
+                print("Error declining friend request: \(error)")
+            }
+        }
 
 }
