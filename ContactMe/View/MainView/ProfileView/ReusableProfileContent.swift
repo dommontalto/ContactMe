@@ -41,7 +41,7 @@ struct ReusableProfileContent: View {
              .listRowBackground(Color(UIColor.systemGroupedBackground))
             
             Section {
-                ForEach(0..<12) { index in
+                ForEach(0..<14) { index in
                     switch index {
                     case 0:
                         if let location = user.location {
@@ -97,6 +97,14 @@ struct ReusableProfileContent: View {
                     case 11:
                         if let discord = user.discord {
                             profileDetailRow(imageName: "discord", detailText: discord)
+                        }
+                    case 12:
+                        if let youtube = user.youtube {
+                            profileDetailRow(imageName: "youtube", detailText: youtube)
+                        }
+                    case 13:
+                        if let tiktok = user.tiktok {
+                            profileDetailRow(imageName: "tiktok", detailText: tiktok)
                         }
                     default:
                         EmptyView()
