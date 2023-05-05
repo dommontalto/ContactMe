@@ -33,11 +33,11 @@ struct ProfileView: View {
             VStack {
                 if let myProfile = myProfile {
                     ReusableProfileContent(user: myProfile)
-                        .refreshable {
-                            // MARK: Refresh User Data
-                            self.myProfile = nil
-                            await fetchUserData()
-                        }
+//                        .refreshable {
+//                            // MARK: Refresh User Data
+//                            self.myProfile = nil
+//                            await fetchUserData()
+//                        }
                 } else {
                     ProgressView()
                 }

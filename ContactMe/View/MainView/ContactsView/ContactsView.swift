@@ -51,11 +51,11 @@ struct ContactsView: View {
                             .font(.headline)
                     }
                 }
-                .refreshable {
-                    isRefreshing = true
-                    await fetchFriends()
-                    isRefreshing = false
-                }
+//                .refreshable {
+//                    isRefreshing = true
+//                    await fetchFriends()
+//                    isRefreshing = false
+//                }
                 .navigationTitle("Contacts")
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear {

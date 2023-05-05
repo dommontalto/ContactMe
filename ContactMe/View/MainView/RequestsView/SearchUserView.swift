@@ -38,7 +38,10 @@ struct SearchUserView: View {
                             .foregroundColor(.gray)
                     default:
                         Button(action: {
-                            Task { await sendFriendRequest(to: user) }
+                            Task {
+                                await sendFriendRequest(to: user)
+                                updateFriendRequests(for: user.userUID, with: "pending") // Update the UI instantly
+                            }
                         }) {
                             Text("Send Request")
                         }
@@ -147,6 +150,11 @@ struct SearchUserView: View {
         } catch {
             print("Error fetching friend requests: \(error)")
         }
+    }
+    
+    func updateFriendRequests(for userUID: String?, with status: String) {
+        guard let userUID = userUID else { return }
+        friendRequests[userUID] = status
     }
 
 }

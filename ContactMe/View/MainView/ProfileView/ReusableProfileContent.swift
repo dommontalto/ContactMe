@@ -54,6 +54,10 @@ struct ReusableProfileContent: View {
                     case 2:
                         if let email = user.email {
                             profileDetailRow(imageName: "email", detailText: email)
+                            
+                                .onTapGesture {
+                                    composeEmail(to: email)
+                                }
                         }
                     case 3:
                         if let mobile = user.mobile {
@@ -99,6 +103,9 @@ struct ReusableProfileContent: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $isShowingMailView) {
+            MailView(toRecipients: [user.email ?? ""], subject: "Hello", bodyText: "This is a sample email.")
         }
         .listStyle(InsetGroupedListStyle())
     }

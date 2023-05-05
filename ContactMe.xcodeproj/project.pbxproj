@@ -75,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				9B673EE22A003685004FC500 /* RequestsView.swift */,
+				ADC5E73A295B3478008034B3 /* SearchUserView.swift */,
 			);
 			path = RequestsView;
 			sourceTree = "<group>";
@@ -92,7 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				AD22B2A0294A35AF00336F09 /* MainView.swift */,
-				ADC5E73A295B3478008034B3 /* SearchUserView.swift */,
 				ADC5E738295B31CB008034B3 /* ContactsView */,
 				9B673EE42A003692004FC500 /* RequestsView */,
 				ADC5E739295B31DA008034B3 /* ProfileView */,
