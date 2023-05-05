@@ -59,6 +59,9 @@ struct ReusableProfileContent: View {
                     case 3:
                         if let mobile = user.mobile {
                             profileDetailRow(imageName: "mobile", detailText: mobile)
+                                .onTapGesture {
+                                    callNumber(phoneNumber: mobile)
+                                }
                         }
                     case 4:
                         if let whatsapp = user.whatsapp {

@@ -55,7 +55,7 @@ struct RequestsView: View {
                     Button(action: {
                         showSearchUserView = true
                     }) {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: "person.crop.circle.badge.plus")
                     }
                 )
                 .onAppear {

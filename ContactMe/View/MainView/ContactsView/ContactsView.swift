@@ -24,13 +24,11 @@ struct ContactsView: View {
                                Text("No Contacts")
                                    .font(.largeTitle)
                                    .foregroundColor(.gray)
-                                   .opacity(isRefreshing ? 0 : 1) // Hide the text when refreshing
                                Spacer()
                            }
                        } else {
                            ProgressView()
                                .progressViewStyle(CircularProgressViewStyle())
-                               // .scaleEffect(2) // Remove this line
                        }
                    }
                    .navigationTitle("Contacts")
