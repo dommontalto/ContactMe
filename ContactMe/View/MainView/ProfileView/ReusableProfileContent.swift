@@ -1,7 +1,9 @@
 import SwiftUI
+import MessageUI
 import SDWebImageSwiftUI
 
 struct ReusableProfileContent: View {
+    @State private var isShowingMailView = false
     var user: User
     
     var body: some View {
@@ -109,4 +111,34 @@ struct ReusableProfileContent: View {
             Text(detailText)
         }
     }
+    
+    func composeEmail(to emailAddress: String) {
+        if MFMailComposeViewController.canSendMail() {
+            isShowingMailView = true
+        } else {
+            print("Mail services are not available")
+        }
+    }
+
+       func callNumber(phoneNumber: String) {
+           if let phoneURL = URL(string: "tel://\(phoneNumber)") {
+               if UIApplication.shared.canOpenURL(phoneURL) {
+                   UIApplication.shared.open(phoneURL, options: [:], completionHandler: nil)
+               } else {
+                   print("Call services are not available")
+               }
+           }
+       }
+
+       func searchTwitterProfile(username: String) {
+           if let twitterURL = URL(string: "https://twitter.com/\(username)") {
+               UIApplication.shared.open(twitterURL, options: [:], completionHandler: nil)
+           } else {
+               print("Invalid Twitter URL")
+           }
+       }
+   
 }
+
+
+

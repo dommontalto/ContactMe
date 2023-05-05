@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9B3FC2022A03007E00B19105 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3FC2012A03007E00B19105 /* Request.swift */; };
+		9B3FC2082A04546D00B19105 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3FC2072A04546D00B19105 /* MailView.swift */; };
 		9B673EE12A00320C004FC500 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B673EE02A00320C004FC500 /* GoogleService-Info.plist */; };
 		9B673EE32A003685004FC500 /* RequestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B673EE22A003685004FC500 /* RequestsView.swift */; };
 		AD22B29C294A354000336F09 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD22B29B294A354000336F09 /* RegisterView.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		9B3FC2012A03007E00B19105 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		9B3FC2072A04546D00B19105 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		9B673EE02A00320C004FC500 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9B673EE22A003685004FC500 /* RequestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsView.swift; sourceTree = "<group>"; };
 		AD22B29B294A354000336F09 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				AD22B2A4294A373100336F09 /* ProfileView.swift */,
 				AD22B2A6294A3C6300336F09 /* ReusableProfileContent.swift */,
+				9B3FC2072A04546D00B19105 /* MailView.swift */,
 			);
 			path = ProfileView;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				AD22B2A5294A373100336F09 /* ProfileView.swift in Sources */,
 				AD22B2A7294A3C6300336F09 /* ReusableProfileContent.swift in Sources */,
 				AD22B2A1294A35AF00336F09 /* MainView.swift in Sources */,
+				9B3FC2082A04546D00B19105 /* MailView.swift in Sources */,
 				ADDA1FC929410583006E1497 /* LoginView.swift in Sources */,
 				ADDA1FB529410338006E1497 /* ContentView.swift in Sources */,
 				AD22B29F294A358D00336F09 /* View+Extensions.swift in Sources */,
