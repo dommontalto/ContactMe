@@ -43,7 +43,7 @@ struct ContactsView: View {
                     NavigationLink(destination:
                         VStack {
                             ReusableProfileContent(user: friend)
-                            .offset(y: -20)
+                            .padding(.top,-20)
                         }
                        
                     ) {
