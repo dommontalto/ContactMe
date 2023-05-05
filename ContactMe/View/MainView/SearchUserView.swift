@@ -49,7 +49,7 @@ struct SearchUserView: View {
         }
         .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Search User")
+        .navigationTitle("Add New Contact")
         .searchable(text: $searchText)
         .onSubmit(of: .search, {
             Task { await searchUsers() }
