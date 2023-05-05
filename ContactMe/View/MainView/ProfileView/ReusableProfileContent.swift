@@ -8,38 +8,37 @@ struct ReusableProfileContent: View {
     
     var body: some View {
         List {
-            Section {
-                VStack {
-                    HStack(spacing: 12) {
-                        WebImage(url: user.userProfileURL).placeholder {
-                            // MARK: Placeholder Image
-                            Image("NullProfile")
-                                .resizable()
-                        }
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
-                        .padding(.leading, -20)
-                        .padding(.top, -10)
-                        
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(user.fullName ?? "")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .padding(.leading, 5)
-                            
-                            Text(user.userPIN ?? "")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                                .lineLimit(3)
-                                .padding(.leading, 5)
-                        }
-                    }
-                }
-                .background(Color(UIColor.systemGroupedBackground))
-            }
-            .listRowBackground(Color(UIColor.systemGroupedBackground))
+             Section {
+                 HStack {
+                     Spacer()
+                     VStack(alignment: .center, spacing: 6) {
+                         WebImage(url: user.userProfileURL).placeholder {
+                             // MARK: Placeholder Image
+                             Image("NullProfile")
+                                 .resizable()
+                         }
+                         .resizable()
+                         .aspectRatio(contentMode: .fill)
+                         .frame(width: 100, height: 100)
+                         .clipShape(Circle())
+                         .padding(.top, -10)
+
+                         Text(user.fullName ?? "")
+                             .font(.title3)
+                             .fontWeight(.semibold)
+                             .padding(.top, 10)
+
+                         Text(user.userPIN ?? "")
+                             .font(.caption)
+                             .foregroundColor(.gray)
+                             .lineLimit(3)
+                     }
+                     .padding(.bottom, -10)
+                     Spacer()
+                 }
+                 .background(Color(UIColor.systemGroupedBackground))
+             }
+             .listRowBackground(Color(UIColor.systemGroupedBackground))
             
             Section {
                 ForEach(0..<12) { index in
@@ -111,6 +110,7 @@ struct ReusableProfileContent: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 30, height: 30)
                 .clipShape(Circle())
+                .opacity(0.9)
             Text(detailText)
         }
     }
@@ -140,6 +140,12 @@ struct ReusableProfileContent: View {
                print("Invalid Twitter URL")
            }
        }
+    
+    struct ProfileView_Previews: PreviewProvider {
+        static var previews: some View {
+            ReusableProfileContent(user: User(fullName: "Dom Montalto", userPIN: "12345678",location: "England, United Kingdom"))
+        }
+    }
    
 }
 

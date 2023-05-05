@@ -42,6 +42,7 @@ struct ProfileView: View {
                     ProgressView()
                 }
             }
+            .padding(.top, -20)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button("Edit", action: {
@@ -283,7 +284,7 @@ struct ProfileView: View {
     
     struct ProfileView_Previews: PreviewProvider {
         static var previews: some View {
-            ContentView()
+            ProfileView()
         }
     }
 }

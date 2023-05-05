@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "telegram.jpg",
+      "filename" : "telegram 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "telegram 1.jpg",
+      "filename" : "telegram 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "telegram 2.jpg",
+      "filename" : "telegram.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
